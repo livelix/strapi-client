@@ -1,22 +1,17 @@
 import StrapiAPI from './StrapiAPI';
-import StrapiAPIFlat from './StrapiAPIFlat';
 import StrapiFindQuery from './strapi-types/StrapiFindQuery';
-import StrapiContentTypeAPIFlat from './StrapiContentTypeAPIFlat';
 import { StrapiContentTypeDataFlat } from './strapi-types/StrapiContentTypeData';
 import { StrapiMultipleResponseFlat } from './strapi-types/StrapiMultipleResponse';
 
-export default class StrapiClientFlat<Config extends Record<string, unknown>> {
-  /**
-   * API
-   */
-  readonly api: StrapiAPIFlat<Config>;
+export default class StrapiAPIFlat<Config extends Record<string, unknown> = {}> {
+  readonly api: StrapiAPI<Config>;
 
   /**
    * Create a new Strapi Client
-   * @param baseURL
+   * @param api
    */
-  constructor(baseURL: string) {
-    this.api = new StrapiAPIFlat<Config>(new StrapiAPI<Config>(baseURL));
+  constructor(api: StrapiAPI<Config>) {
+    this.api = api;
   }
 
   /**
@@ -28,7 +23,9 @@ export default class StrapiClientFlat<Config extends Record<string, unknown>> {
     contentTypeName: ContentTypeName,
     data: ContentType,
   ): Promise<StrapiContentTypeDataFlat<ContentType>> {
-    return this.api.create<ContentTypeName, ContentType>(contentTypeName, data);
+    const response = await this.api.create<ContentTypeName, ContentType>(contentTypeName, data);
+
+    return StrapiAPI.flattenResponse<ContentType>(response);
   }
 
   /**
@@ -40,7 +37,9 @@ export default class StrapiClientFlat<Config extends Record<string, unknown>> {
     contentTypeName: ContentTypeName,
     id: number,
   ): Promise<StrapiContentTypeDataFlat<ContentType>> {
-    return this.api.get<ContentTypeName, ContentType>(contentTypeName, id);
+    const response = await this.api.get<ContentTypeName, ContentType>(contentTypeName, id);
+
+    return StrapiAPI.flattenResponse<ContentType>(response);
   }
 
   /**
@@ -52,7 +51,12 @@ export default class StrapiClientFlat<Config extends Record<string, unknown>> {
     contentTypeName: ContentTypeName,
     query: StrapiFindQuery<ContentType> = {},
   ): Promise<StrapiMultipleResponseFlat<ContentType>> {
-    return this.api.find<ContentTypeName, ContentType>(contentTypeName, query);
+    const response = await this.api.find<ContentTypeName, ContentType>(contentTypeName, query);
+
+    return {
+      ...response,
+      data: response.data.map(StrapiAPI.flattenResponseData),
+    };
   }
 
   /**
@@ -64,9 +68,11 @@ export default class StrapiClientFlat<Config extends Record<string, unknown>> {
   async update<ContentTypeName extends keyof Config | string, ContentType = Config[ContentTypeName]>(
     contentTypeName: ContentTypeName,
     id: number,
-    data: ContentType,
+    data: Partial<ContentType>,
   ): Promise<StrapiContentTypeDataFlat<ContentType>> {
-    return this.api.update<ContentTypeName, ContentType>(contentTypeName, id, data);
+    const response = await this.api.update<ContentTypeName, ContentType>(contentTypeName, id, data);
+
+    return StrapiAPI.flattenResponse<ContentType>(response);
   }
 
   /**
@@ -78,26 +84,8 @@ export default class StrapiClientFlat<Config extends Record<string, unknown>> {
     contentTypeName: ContentTypeName,
     id: number,
   ): Promise<StrapiContentTypeDataFlat<ContentType>> {
-    return this.api.delete<ContentTypeName, ContentType>(contentTypeName, id);
-  }
+    const response = await this.api.delete<ContentTypeName, ContentType>(contentTypeName, id);
 
-  /**
-   * An api for a single content type
-   * @param contentTypeName
-   */
-  contentType<ContentTypeName extends string, ContentType = Config[ContentTypeName]>(
-    contentTypeName: ContentTypeName,
-  ): StrapiContentTypeAPIFlat<ContentTypeName, ContentType> {
-    return new StrapiContentTypeAPIFlat<ContentTypeName, ContentType>(contentTypeName, this.api);
-  }
-
-  /**
-   * A shorthand function for `contentType` function
-   * @param contentTypeName
-   */
-  ct<ContentTypeName extends string, ContentType = Config[ContentTypeName]>(
-    contentTypeName: ContentTypeName,
-  ): StrapiContentTypeAPIFlat<ContentTypeName, ContentType> {
-    return this.contentType<ContentTypeName, ContentType>(contentTypeName);
+    return StrapiAPI.flattenResponse<ContentType>(response);
   }
 }
