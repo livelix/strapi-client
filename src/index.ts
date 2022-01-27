@@ -13,6 +13,12 @@ import StrapiPublicationState from './strapi-types/StrapiPublicationState';
 import StrapiSort, { StrapiFieldSort } from './strapi-types/StrapiSort';
 import StrapiClient from './StrapiClient';
 import StrapiClientFlat from './StrapiClientFlat';
+import StrapiAttachment, { StrapiAttachmentData, StrapiAttachmentAttributes } from './strapi-types/StrapiAttachment';
+import AddAttachment from './strapi-ts-helpers/AddAttachment';
+import StrapiAPI from './StrapiAPI';
+import StrapiAPIFlat from './StrapiAPIFlat';
+import StrapiContentTypeAPI from './StrapiContentTypeAPI';
+import StrapiContentTypeAPIFlat from './StrapiContentTypeAPIFlat';
 
 export {
   StrapiContentTypeData,
@@ -32,6 +38,14 @@ export {
   StrapiSort,
   StrapiFieldSort,
   StrapiClientFlat,
+  StrapiAttachment,
+  StrapiAttachmentData,
+  StrapiAttachmentAttributes,
+  AddAttachment,
+  StrapiAPI,
+  StrapiAPIFlat,
+  StrapiContentTypeAPI,
+  StrapiContentTypeAPIFlat,
 };
 
 export default StrapiClient;
