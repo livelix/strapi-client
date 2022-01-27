@@ -12,7 +12,7 @@ type StrapiFieldPopulateFilters<ContentType> = {
   fields?: StrapiFields<ContentType>;
   pagination?: StrapiPagination;
   publicationState?: StrapiPublicationState;
-}
+};
 
 type StrapiPopulate<ContentType> =
   StrapiBasePopulate

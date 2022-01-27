@@ -2,6 +2,9 @@
 
 # Version 0
 
+### 0.1.1
+- Bug fix in add attachment helper
+
 ### 0.1.0
 - Add attachment related models
 - Add helper to add attachments to a typescript content type
