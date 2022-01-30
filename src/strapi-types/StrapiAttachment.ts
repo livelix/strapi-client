@@ -1,18 +1,27 @@
-interface StrapiAttachmentAttributes {
-  alternativeText: string;
-  caption: string;
-  createdAt: string;
+interface StrapiAttachmentFileData {
   ext: string;
   hash: string;
   height: number;
   mime: string;
   name: string;
-  previewUrl?: string;
-  provider: string;
   size: number;
-  updatedAt: string;
   url: string;
   width: number;
+}
+
+interface StrapiAttachmentAttributes extends  StrapiAttachmentFileData {
+  alternativeText: string;
+  caption: string;
+  createdAt: string;
+  previewUrl?: string;
+  provider: string;
+  updatedAt: string;
+  formats: {
+    large: StrapiAttachmentFileData;
+    medium: StrapiAttachmentFileData;
+    small: StrapiAttachmentFileData;
+    thumbnail: StrapiAttachmentFileData;
+  }
 }
 
 interface StrapiAttachmentData {

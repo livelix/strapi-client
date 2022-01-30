@@ -2,6 +2,9 @@
 
 # Version 0
 
+### 0.2.0
+- Add `formats` field to `StapiAttachment` type
+
 ### 0.1.1
 - Bug fix in add attachment helper
 
