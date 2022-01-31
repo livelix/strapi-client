@@ -2,6 +2,9 @@
 
 # Version 0
 
+### 0.3.0
+- Fix `StrapiMultipleResponseMeta` type
+
 ### 0.2.0
 - Add `formats` field to `StapiAttachment` type
 
