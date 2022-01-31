@@ -1,13 +1,11 @@
 import StrapiContentTypeData, { StrapiContentTypeDataFlat } from './StrapiContentTypeData';
 
 type StrapiMultipleResponseMeta = {
-  meta: {
-    pagination: {
-      page: number;
-      pageSize: number;
-      pageCount: number;
-      total: number;
-    };
+  pagination: {
+    page: number;
+    pageSize: number;
+    pageCount: number;
+    total: number;
   };
 };
 
